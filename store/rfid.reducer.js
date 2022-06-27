@@ -4,7 +4,7 @@ export const rfidReducer = (state, { type, payload }) => {
 	switch (type) {
 		case 'SET_SOCKET':
 			return produce(state, draft => {
-				draft.rfidSocket.socket = payload
+				draft.rfidSocket = payload
 			})
 		case 'SOCKET_ERROR':
 		case 'SOCKET_FAILED':

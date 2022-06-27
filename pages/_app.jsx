@@ -3,7 +3,7 @@ import nprogress from "nprogress";
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import connectSocket from "sockets";
+import connectSocket, { EventListeners } from "sockets";
 import { useRfidStore } from "store/rfid.store";
 import "styles/globals.css";
 
@@ -43,12 +43,13 @@ const AppWithQuery = ({ Component, pageProps }) => {
 	const dispatchToRfid = useRfidStore((state) => state.dispatchToRfid);
 
 	useEffect(() => {
-		const rfidSocket = connectSocket();
-		rfidSocket.emit("join");
-		dispatchToRfid({ type: "SET_SOCKET", payload: rfidSocket });
+		dispatchToRfid({ type: "SET_SOCKET", payload: connectSocket() });
 	}, []);
 
-	return <Component {...pageProps} />;
+	return <>
+		<Component {...pageProps} />
+		<EventListeners />
+	</>;
 };
 
 export default App;

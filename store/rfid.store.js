@@ -5,7 +5,7 @@ import { rfidReducer } from './rfid.reducer'
 export const useRfidStore = create(
 	devtools(
 		(set) => ({
-			rfidSocket: { socket: null, connected: false, error: false },
+			rfidSocket: null,
 			rfidData: null,
 			dispatchToRfid: (action) =>
 				set((state) => rfidReducer(state, action)),
