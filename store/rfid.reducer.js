@@ -3,6 +3,7 @@ import { produce } from 'immer'
 export const rfidReducer = (state, { type, payload }) => {
 	switch (type) {
 		case 'SET_SOCKET':
+			window.s = payload
 			return produce(state, draft => {
 				draft.rfidSocket = payload
 			})
@@ -19,7 +20,7 @@ export const rfidReducer = (state, { type, payload }) => {
 			return produce(state, (draft) => {
 				draft.rfidSocket.connected = true
 			})
-		case 'SET_RFID_DATA': 
+		case 'SET_RFID_DATA':
 			return produce(state, draft => {
 				draft.rfidData = payload
 			})

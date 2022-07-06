@@ -13,7 +13,6 @@ const RfidListeners = () => {
 	const rfidSocketError = () => {
 		console.error("@rfidSocket ERROR");
 		dispatchToRfid({ type: 'SOCKET_ERROR' })
-		closeClass("rfidSocketError");
 	};
 
 	const rfidSocketDisconnect = () => {
@@ -27,12 +26,12 @@ const RfidListeners = () => {
 	};
 
 	useEffect(() => {
-		rfidSocket.onopen(rfidSocketJoined);
-		rfidSocket.onerror(rfidSocketError);
-		rfidSocket.onclose(rfidSocketDisconnect);
-		rfidSocket.onmessage(rfidSocketRfidData);
+			rfidSocket.onopen = rfidSocketJoined;
+			rfidSocket.onerror = rfidSocketError;
+			rfidSocket.onclose = rfidSocketDisconnect;
+			rfidSocket.onmessage = rfidSocketRfidData;
 
-		return () => rfidSocket.close();
+			return () => rfidSocket.close();
 	}, [])
 
 	return <></>

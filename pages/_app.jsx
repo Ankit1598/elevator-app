@@ -27,6 +27,11 @@ Router.events.on("routeChangeComplete", () => nprogress.done());
 Router.events.on("routeChangeError", () => nprogress.done());
 
 const App = (props) => {
+	const dispatchToRfid = useRfidStore((state) => state.dispatchToRfid);
+
+	useEffect(() => {
+		dispatchToRfid({ type: "SET_SOCKET", payload: connectSocket() });
+	}, []);
 	return (
 		<>
 			<QueryClientProvider client={queryClient}>
@@ -40,15 +45,10 @@ const App = (props) => {
 };
 
 const AppWithQuery = ({ Component, pageProps }) => {
-	const dispatchToRfid = useRfidStore((state) => state.dispatchToRfid);
-
-	useEffect(() => {
-		dispatchToRfid({ type: "SET_SOCKET", payload: connectSocket() });
-	}, []);
-
+	const rfidSocket = useRfidStore(state => state.rfidSocket)
 	return <>
 		<Component {...pageProps} />
-		<EventListeners />
+		{rfidSocket && <EventListeners />}
 	</>;
 };
 
