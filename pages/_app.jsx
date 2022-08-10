@@ -1,3 +1,5 @@
+import { Navbar } from "components";
+import Head from "next/head";
 import { Router } from "next/router";
 import nprogress from "nprogress";
 import { useEffect } from "react";
@@ -47,8 +49,18 @@ const App = (props) => {
 const AppWithQuery = ({ Component, pageProps }) => {
 	const rfidSocket = useRfidStore(state => state.rfidSocket)
 	return <>
-		<Component {...pageProps} />
-		{rfidSocket && <EventListeners />}
+		<Head>
+			<title>Elevator Costing</title>
+			<link rel="icon" href="/favicon.ico" />
+		</Head>
+		<header>
+			<Navbar />
+		</header>
+		<main>
+			<Component {...pageProps} />
+			{rfidSocket && <EventListeners />}
+		</main>
+		<footer></footer>
 	</>;
 };
 
