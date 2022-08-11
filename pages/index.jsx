@@ -3,6 +3,7 @@ import produce from "immer";
 import { addLog, addTag, fetchLogs, fetchTags } from "queries";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
+import { toast } from "react-toastify";
 import queryClient from "services/queryClient";
 import { useRfidStore } from "store/rfid.store";
 import formatDate from "utils/formatDate";
@@ -18,16 +19,24 @@ const Home = () => {
 	const { data: logs, isLoading: loadingLogs } = useQuery("logs", fetchLogs);
 	const { data: tags, isLoading: loadingTags } = useQuery("tags", fetchTags);
 	const logMutation = useMutation(addLog, {
-		onSuccess: () => {
+		onError: () => {
 			queryClient.invalidateQueries("logs");
 			queryClient.invalidateQueries("tags");
+			toast.success("Log added");
 			closeLog();
+		},
+		onError: (e) => {
+			toast.error(e.response.data.results.data.error);
 		},
 	});
 	const tagMutation = useMutation(addTag, {
 		onSuccess: () => {
 			queryClient.invalidateQueries("tags");
+			toast.success("Tag added");
 			closeTag();
+		},
+		onError: () => {
+			toast.error(e.response.data.results.data.error);
 		},
 	});
 
@@ -40,19 +49,21 @@ const Home = () => {
 	};
 
 	const closeLog = (e) => {
-		dispatchToRfid({ type: "SET_RFID_DATA", payload: '' });
+		dispatchToRfid({ type: "SET_RFID_DATA", payload: "" });
 		setModalState(
 			produce((draft) => {
 				draft.log = false;
 			})
 		);
 	};
-	const closeTag = (e) =>
+	const closeTag = (e) => {
+		dispatchToRfid({ type: "SET_RFID_DATA", payload: "" });
 		setModalState(
 			produce((draft) => {
 				draft.tag = false;
 			})
 		);
+	};
 
 	const onSubmitLog = (data) => {
 		logMutation.mutate(data);
@@ -64,10 +75,9 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		console.log(rfidData && modalState.tag === false);
-		if (rfidData && modalState.tag === false)
+		if (!!rfidData && modalState.tag === false)
 			openModal({ target: { id: "log" } });
-	}, [rfidData]);
+	}, [rfidData, modalState.tag]);
 
 	return (
 		<>

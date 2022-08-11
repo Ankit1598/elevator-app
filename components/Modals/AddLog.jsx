@@ -1,6 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import produce from "immer";
 import { Fragment, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useRfidStore } from "store/rfid.store";
 
 const AddLog = ({ isOpen, close, submit }) => {
@@ -10,7 +11,7 @@ const AddLog = ({ isOpen, close, submit }) => {
 		to: null,
 		from: null,
 	});
-	console.log(logData);
+
 	const updateLogData = (e) =>
 		setLogData(
 			produce((draft) => {
@@ -128,9 +129,13 @@ const AddLog = ({ isOpen, close, submit }) => {
 										type="submit"
 										className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
 										onClick={() =>
-											Object.values(logData).some(Boolean)
-												? submit(logData)
-												: false
+											Object.values(logData).some(
+												(val) => val === null
+											)
+												? toast.warning(
+														"Please fill all the details"
+												  )
+												: submit(logData)
 										}
 									>
 										Submit

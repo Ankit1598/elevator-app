@@ -5,9 +5,11 @@ import nprogress from "nprogress";
 import { useEffect } from "react";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { ToastContainer } from "react-toastify";
 import queryClient from "services/queryClient";
 import connectSocket, { EventListeners } from "sockets";
 import { useRfidStore } from "store/rfid.store";
+import "react-toastify/dist/ReactToastify.css";
 import "styles/globals.css";
 
 nprogress.configure({
@@ -64,6 +66,19 @@ const AppWithQuery = ({ Component, pageProps }) => {
 				{rfidSocket && <EventListeners />}
 			</main>
 			<footer></footer>
+			<ToastContainer
+				position="top-right"
+				autoClose={2500}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss={false}
+				draggable
+				theme="colored"
+				pauseOnHover={false}
+				limit={3}
+			/>
 		</>
 	);
 };

@@ -9,11 +9,9 @@ export const fetchTags = () => {
 };
 
 export const addLog = (data) => {
-	console.log(data)
 	return axiosInstance.post(`/logs/add`, data);
 };
 
 export const addTag = (data) => {
-	console.log(data)
 	return axiosInstance.post(`/tags/add`, data);
 };
