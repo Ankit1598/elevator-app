@@ -6,10 +6,10 @@ export const useRfidStore = create(
 	devtools(
 		(set) => ({
 			rfidSocket: null,
-			rfidData: null,
+			rfidData: '',
 			dispatchToRfid: (action) =>
 				set((state) => rfidReducer(state, action)),
 		}),
-		{ name: 'useStore' }
+		{ name: "useRfidStore" }
 	)
-)
+);

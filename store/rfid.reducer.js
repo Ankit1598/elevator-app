@@ -21,6 +21,7 @@ export const rfidReducer = (state, { type, payload }) => {
 				draft.rfidSocket.connected = true
 			})
 		case 'SET_RFID_DATA':
+			console.log(payload);
 			return produce(state, draft => {
 				draft.rfidData = payload
 			})

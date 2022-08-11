@@ -10,11 +10,11 @@ module.exports = {
 		extend: {
 			minHeight: {
 				navScreen: "calc(100vh - 65px)",
-				navScreenSpaced: "calc(100vh - 80px)",
+				navScreenSpaced: "calc(100vh - 90px)",
 			},
 			maxHeight: {
 				navScreen: "calc(100vh - 65px)",
-				navScreenSpaced: "calc(100vh - 80px)",
+				navScreenSpaced: "calc(100vh - 90px)",
 			},
 			colors: {},
 			textColor: (theme) => theme("colors"),

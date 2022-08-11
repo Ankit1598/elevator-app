@@ -1,14 +1,23 @@
-import { Dialog, Transition } from '@headlessui/react';
-import produce from 'immer';
-import { Fragment, useState } from 'react';
+import { Dialog, Transition } from "@headlessui/react";
+import produce from "immer";
+import { Fragment, useEffect, useState } from "react";
+import { useRfidStore } from "store/rfid.store";
+import classNames from "utils/classNames";
 
 const AddTag = ({ isOpen, close, submit }) => {
-	const [tagData, setTagData] = useState({ flatId: null })
+	const rfidData = useRfidStore((state) => state.rfidData);
+	const [tagData, setTagData] = useState({ tagId: null, flatId: null });
 
-	const updateTagData = (e) => setTagData(
-		produce((draft) => {
-			draft[e.target.id] = e.target.value
-		})
+	const updateTagData = (e) =>
+		setTagData(
+			produce((draft) => {
+				draft[e.target.id] = e.target.value;
+			})
+		);
+
+	useEffect(
+		() => updateTagData({ target: { id: "tagId", value: rfidData } }),
+		[rfidData]
 	);
 
 	return (
@@ -40,14 +49,42 @@ const AddTag = ({ isOpen, close, submit }) => {
 							<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
 								<Dialog.Title
 									as="h3"
-									className="text-lg leading-6 font-medium text-gray-900"
+									className="text-lg font-medium leading-6 text-gray-900"
 								>
 									Add Tag
 								</Dialog.Title>
 								<form className="mt-2">
 									<div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-										<div className="sm:col-span-6">
-											<label htmlFor="flatId" className="block text-sm font-medium text-gray-700">
+										<div className="sm:col-span-3">
+											<label
+												htmlFor="tagId"
+												className="block text-sm font-medium text-gray-700"
+											>
+												Tag ID
+											</label>
+											<div className="mt-1">
+												<input
+													type="text"
+													name="tagId"
+													id="tagId"
+													autoComplete="tagId"
+													className={classNames(
+														"block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+														rfidData
+															? "bg-gray-200"
+															: ""
+													)}
+													defaultValue={rfidData}
+													disabled={!!rfidData}
+													onChange={updateTagData}
+												/>
+											</div>
+										</div>
+										<div className="sm:col-span-3">
+											<label
+												htmlFor="flatId"
+												className="block text-sm font-medium text-gray-700"
+											>
 												Flat ID
 											</label>
 											<div className="mt-1">
@@ -56,7 +93,7 @@ const AddTag = ({ isOpen, close, submit }) => {
 													name="flatId"
 													id="flatId"
 													autoComplete="flatId"
-													className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+													className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 													onChange={updateTagData}
 												/>
 											</div>
@@ -75,7 +112,11 @@ const AddTag = ({ isOpen, close, submit }) => {
 									<button
 										type="submit"
 										className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-										onClick={() => Object.values(tagData).some(Boolean) ? submit(tagData) : false}
+										onClick={() =>
+											Object.values(tagData).some(Boolean)
+												? submit(tagData)
+												: false
+										}
 									>
 										Submit
 									</button>
@@ -86,7 +127,7 @@ const AddTag = ({ isOpen, close, submit }) => {
 				</div>
 			</Dialog>
 		</Transition>
-	)
-}
+	);
+};
 
-export default AddTag
+export default AddTag;

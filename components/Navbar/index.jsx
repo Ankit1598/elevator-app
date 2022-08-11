@@ -13,17 +13,13 @@ const navigation = [
 		name: "Tags",
 		href: "/tags",
 	},
-	{
-		name: "Flats",
-		href: "/flats",
-	},
 ];
 
 const Navbar = () => {
 	return (
 		<>
 			<div className="mx-auto w-full border-b border-slate-900/5">
-				<Popover>
+				{/* <Popover> */}
 					<nav
 						className="relative mx-auto flex max-w-7xl items-center justify-between py-3 px-4 sm:px-6 lg:px-14"
 						aria-label="Global"
@@ -36,14 +32,14 @@ const Navbar = () => {
 											Elevator Costing
 										</span>
 										<img
-											className="h-8 w-auto sm:h-10 rounded-full"
+											className="h-8 w-auto rounded-full sm:h-10"
 											src="https://avatars.dicebear.com/api/initials/Elevator Costing.svg"
 											alt="Elevator Costing"
 										/>
 									</a>
 								</Link>
-								<div className="-mr-2 flex items-center md:hidden">
-									<Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lu">
+								{/* <div className="-mr-2 flex items-center md:hidden">
+									<Popover.Button className="focus:ring-lu inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset">
 										<span className="sr-only">
 											Open main menu
 										</span>
@@ -52,22 +48,21 @@ const Navbar = () => {
 											aria-hidden="true"
 										/>
 									</Popover.Button>
-								</div>
+								</div> */}
 							</div>
-							<div className="hidden md:ml-10 md:block md:space-x-5">
+							{/* <div className="hidden md:ml-10 md:block md:space-x-5">
 								{navigation.map((item) => (
-									<Link
-										key={item.name}
-										href={item.href}
-									>
-										<a className="font-medium text-gray-900 hover:underline underline-offset-2">{item.name}</a>
+									<Link key={item.name} href={item.href}>
+										<a className="font-medium text-gray-900 underline-offset-2 hover:underline">
+											{item.name}
+										</a>
 									</Link>
 								))}
-							</div>
+							</div> */}
 						</div>
 					</nav>
 
-					<Transition
+					{/* <Transition
 						as={Fragment}
 						enter="duration-150 ease-out"
 						enterFrom="opacity-0 scale-95"
@@ -90,7 +85,7 @@ const Navbar = () => {
 										/>
 									</div>
 									<div className="-mr-2">
-										<Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lu">
+										<Popover.Button className="focus:ring-lu inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset">
 											<span className="sr-only">
 												Close main menu
 											</span>
@@ -103,18 +98,17 @@ const Navbar = () => {
 								</div>
 								<div className="space-y-1 px-2 pt-2 pb-3">
 									{navigation.map((item) => (
-										<Link
-											key={item.name}
-											href={item.href}
-										>
-											<a className="font-medium text-gray-900 hover:underline underline-offset-2">{item.name}</a>
+										<Link key={item.name} href={item.href}>
+											<a className="font-medium text-gray-900 underline-offset-2 hover:underline">
+												{item.name}
+											</a>
 										</Link>
 									))}
 								</div>
 							</div>
 						</Popover.Panel>
 					</Transition>
-				</Popover>
+				</Popover> */}
 			</div>
 		</>
 	);

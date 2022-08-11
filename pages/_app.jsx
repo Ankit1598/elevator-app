@@ -3,19 +3,12 @@ import Head from "next/head";
 import { Router } from "next/router";
 import nprogress from "nprogress";
 import { useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import queryClient from "services/queryClient";
 import connectSocket, { EventListeners } from "sockets";
 import { useRfidStore } from "store/rfid.store";
 import "styles/globals.css";
-
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			refetchOnWindowFocus: false,
-		},
-	},
-});
 
 nprogress.configure({
 	minimum: 0.3,
@@ -32,8 +25,16 @@ const App = (props) => {
 	const dispatchToRfid = useRfidStore((state) => state.dispatchToRfid);
 
 	useEffect(() => {
-		dispatchToRfid({ type: "SET_SOCKET", payload: connectSocket() });
+		setTimeout(
+			() =>
+				dispatchToRfid({
+					type: "SET_SOCKET",
+					payload: connectSocket(),
+				}),
+			1000
+		);
 	}, []);
+
 	return (
 		<>
 			<QueryClientProvider client={queryClient}>
@@ -47,21 +48,24 @@ const App = (props) => {
 };
 
 const AppWithQuery = ({ Component, pageProps }) => {
-	const rfidSocket = useRfidStore(state => state.rfidSocket)
-	return <>
-		<Head>
-			<title>Elevator Costing</title>
-			<link rel="icon" href="/favicon.ico" />
-		</Head>
-		<header>
-			<Navbar />
-		</header>
-		<main>
-			<Component {...pageProps} />
-			{rfidSocket && <EventListeners />}
-		</main>
-		<footer></footer>
-	</>;
+	let rfidSocket = useRfidStore((state) => state.rfidSocket);
+
+	return (
+		<>
+			<Head>
+				<title>Elevator Costing</title>
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
+			<header>
+				<Navbar />
+			</header>
+			<main>
+				<Component {...pageProps} />
+				{rfidSocket && <EventListeners />}
+			</main>
+			<footer></footer>
+		</>
+	);
 };
 
 export default App;
